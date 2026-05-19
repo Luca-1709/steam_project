@@ -1,0 +1,8 @@
+INSERT INTO compra (usuario_id, juego_id, precio_pagado, fecha_compra, estado, metodo_pago)
+VALUES
+(1, 1, 29990.00, '2024-02-01 10:30:00', 'COMPLETADA', 'SALDO'),
+(1, 2, 19990.00, '2024-03-15 14:00:00', 'COMPLETADA', 'SALDO'),
+(1, 3, 14990.00, '2024-04-10 09:15:00', 'COMPLETADA', 'SALDO'),
+(2, 2, 19990.00, '2024-04-01 16:45:00', 'COMPLETADA', 'SALDO'),
+(2, 4,  9990.00, '2024-05-20 11:00:00', 'COMPLETADA', 'SALDO'),
+(3, 5, 39990.00, '2024-06-01 18:20:00', 'COMPLETADA', 'SALDO');
