@@ -33,5 +33,10 @@ public class BibliotecaModel {
 
     @Column(nullable = false)
     private Boolean activo = true;
+
+    public static Object builder() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'builder'");
+    }
 }
 
