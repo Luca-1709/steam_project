@@ -255,3 +255,18 @@ POST http://localhost:8090/api/v1/desarrolladores -> para registrar un nuevo des
 PUT http://localhost:8090/api/v1/desarrolladores/{id} -> para modificar un desarrollador por su id
 
 DELETE http://localhost:8090/api/v1/desarrolladores/{id} -> para eliminar un desarrollador según su id
+
+Eureka
+http://localhost:8761
+
+Swagger
+ms-usuarios        http://localhost:8081/doc/swagger-ui/index.html
+ms-juegos          http://localhost:8082/doc/swagger-ui/index.html
+ms-biblioteca      http://localhost:8083/doc/swagger-ui/index.html
+ms-tienda          http://localhost:8084/doc/swagger-ui/index.html
+ms-resenas         http://localhost:8085/doc/swagger-ui/index.html
+ms-logros          http://localhost:8086/doc/swagger-ui/index.html
+ms-amigos          http://localhost:8087/doc/swagger-ui/index.html
+ms-pagos           http://localhost:8088/doc/swagger-ui/index.html
+ms-categorias      http://localhost:8089/doc/swagger-ui/index.html
+ms-desarrolladores http://localhost:8090/doc/swagger-ui/index.html
