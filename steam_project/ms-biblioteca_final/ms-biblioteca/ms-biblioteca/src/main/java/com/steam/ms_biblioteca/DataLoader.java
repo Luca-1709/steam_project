@@ -9,10 +9,11 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Random;
+import java.util.HashSet;
+import java.util.Set;
 
-@Component
 @Profile("dev")
+@Component
 public class DataLoader implements CommandLineRunner {
 
     @Autowired
@@ -21,35 +22,37 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         Faker faker = new Faker();
-        Random random = new Random();
 
+        int maxUsuarioId = 3;   // coincide con el seed de ms-usuarios
+        int maxJuegoId = 5;     // coincide con el seed de ms-juegos
+        Set<String> generados = new HashSet<>();
 
-        int[] usuarioIds = {1, 2, 3, 4, 5};
-        int[] juegoIds   = {1, 2, 3, 4, 5};
-
-        int creados = 0;
+        int creadas = 0;
         int intentos = 0;
-
-        while (creados < 10 && intentos < 50) {
+        while (creadas < 10 && intentos < 50) {
             intentos++;
-            int usuarioId = usuarioIds[random.nextInt(usuarioIds.length)];
-            int juegoId   = juegoIds[random.nextInt(juegoIds.length)];
+            int usuarioId = faker.number().numberBetween(1, maxUsuarioId + 1);
+            int juegoId = faker.number().numberBetween(1, maxJuegoId + 1);
+            String par = usuarioId + "-" + juegoId;
 
-            if (bibliotecaRepository.existsByUsuarioIdAndJuegoId(usuarioId, juegoId)) {
+            // Restricción UNIQUE (usuario_id, juego_id)
+            if (!generados.add(par)
+                    || bibliotecaRepository.existsByUsuarioIdAndJuegoId(usuarioId, juegoId)) {
                 continue;
             }
 
-            BibliotecaModel entrada = BibliotecaModel.builder()
-                    .usuarioId(usuarioId)
-                    .juegoId(juegoId)
-                    .fechaAdquirido(LocalDate.now().minusDays(faker.number().numberBetween(1, 365)))
-                    .horasJugadas(faker.number().numberBetween(0, 500))
-                    .build();
+            BibliotecaModel entrada = new BibliotecaModel();
+            entrada.setUsuarioId(usuarioId);
+            entrada.setJuegoId(juegoId);
+            entrada.setFechaAdquisicion(
+                    LocalDate.now().minusDays(faker.number().numberBetween(1, 365)));
+            entrada.setHorasJugadas(faker.number().numberBetween(0, 500));
+            entrada.setActivo(true);
 
             bibliotecaRepository.save(entrada);
-            creados++;
+            creadas++;
         }
 
-        System.out.println("[DataLoader] ms-biblioteca: " + creados + " entradas generadas con DataFaker.");
+        System.out.println("✅ DataLoader: " + creadas + " entradas de biblioteca creadas");
     }
 }

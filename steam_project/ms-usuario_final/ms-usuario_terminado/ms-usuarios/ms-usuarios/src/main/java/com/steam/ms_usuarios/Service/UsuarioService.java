@@ -10,7 +10,6 @@ import com.steam.ms_usuarios.exception.ReglaDeNegocioException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -24,8 +23,11 @@ import java.util.stream.Collectors;
 public class UsuarioService {
  private static final Logger log = LoggerFactory.getLogger(UsuarioService.class);
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    UsuarioService(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
 
     public List<UsuarioResponseDTO> findAll() {
         log.info("[UsuarioService] Consultando todos los usuarios");

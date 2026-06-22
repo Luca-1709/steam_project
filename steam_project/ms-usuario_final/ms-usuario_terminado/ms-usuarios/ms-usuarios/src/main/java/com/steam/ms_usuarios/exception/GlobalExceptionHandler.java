@@ -6,9 +6,6 @@ import org.springframework.http.*;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.servlet.http.HttpServletRequest;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -46,11 +43,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
     }
 
-    ///@ExceptionHandler(Exception.class)
-    ///public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
-        ///log.error("[GlobalExceptionHandler] 500 - Error inesperado: {}", ex.getMessage());
-       /// return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor");
-    ///}
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
+        log.error("[GlobalExceptionHandler] 500 - Error inesperado: {}", ex.getMessage());
+        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor");
+    }
 
     private ResponseEntity<Map<String, Object>> buildError(HttpStatus status, String mensaje) {
         Map<String, Object> body = new LinkedHashMap<>();
@@ -60,19 +57,4 @@ public class GlobalExceptionHandler {
         body.put("mensaje", mensaje);
         return ResponseEntity.status(status).body(body);
     }
-
-    @ExceptionHandler(Exception.class)
-public ResponseEntity<?> handleException(Exception ex, HttpServletRequest request) {
-    String path = request.getRequestURI();
-    if (path.contains("swagger") || path.contains("api-docs") || path.contains("favicon")) {
-        throw new RuntimeException(ex); // ← DEJAR QUE SPRING LO MANEJE
-    }
-    log.error("[GlobalExceptionHandler] 500 - Error inesperado: {}", ex.getMessage());
-    Map<String, Object> error = new HashMap<>();
-    error.put("timestamp", LocalDateTime.now());
-    error.put("status", 500);
-    error.put("error", "Internal Server Error");
-    error.put("mensaje", "Error interno del servidor");
-    return ResponseEntity.status(500).body(error);
-}
 }
