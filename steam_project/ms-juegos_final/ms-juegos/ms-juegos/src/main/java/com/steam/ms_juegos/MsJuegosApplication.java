@@ -2,7 +2,7 @@ package com.steam.ms_juegos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.disco very.EnableDiscoveryClient;
+import org.springframework.cloud.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
